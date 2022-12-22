@@ -16,13 +16,15 @@ Sometimes we can't see where and how all of our money is going. In this project 
 
 I use this free service provider Render
 
-`GET    /---            get ALL the expenses`
-`GET    /---            get expense by id`
-`GET    /---            get expense by month`
-`GET    /---            get expense by expense type`
-`DELETE /---            deletes ALL expenses`
-`DELETE /---            deletes expense by id (so one item from the list`
-`POST    /---           update expense`
+```
+GET    /---            get ALL the expenses
+GET    /---            get expense by id
+GET    /---            get expense by month
+GET    /---            get expense by expense type
+DELETE /---            deletes ALL expenses
+DELETE /---            deletes expense by id (so one item from the list
+POST    /---           update expense
+```
 
 ### How to use this project (locally)
 
