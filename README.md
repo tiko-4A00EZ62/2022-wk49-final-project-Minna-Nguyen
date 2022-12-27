@@ -30,16 +30,16 @@ POST    /---           update expense
 
 ##### Running the application
 
-If you want to test this simple app I created locally you need to
-`npm install`. the package-lock.json
-
+Install `npm install mysql`
+Install the express node module `npm install express`.
 To make it easier to code this project uses 'nodemon' gloablly. To install it `npm install -g nodemon`
-To run the \*.js with `nodemon *.js` Nodemon will restart the application everytime new changes are done.
+
+For Mac users install it `npm install nodemon --save-dev` And to run it `npx nodemon index.js`
+
+To run the index.js with `nodemon index.js` Nodemon will restart the application everytime new changes are done.
 
 Create a `.env` file to store conneciton information. Make sure not to let anybody see the credentials. You need to install 'dotenv' to the read the `.env` file.
-`npm install dotenv`
-
-Install the express node module `npm install express`
+`npm install dotenv --save`
 
 ### Creating default database
 
