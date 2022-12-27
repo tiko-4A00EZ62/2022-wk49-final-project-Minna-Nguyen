@@ -43,22 +43,42 @@ Create a `.env` file to store conneciton information. Make sure not to let anybo
 
 ### Creating default database
 
-Creating table "---"
+Creating table "expenses and categories"
 
 ```
-CREATE TABLE IF NOT EXIST "---" (
-"id" int() NOT NULL AUTO_INCREMENT,
-"name" varchar(60) NOT NULL,
-"created" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-"updated" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-PRIMARY KEY ("id")
-)
+CREATE TABLE IF NOT EXISTS expenses (
+expense_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+shop_name varchar(60) NOT NULL,
+amount DECIMAL(10,2) NOT NULL,
+category_id INT NOT NULL,
+date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+FOREIGN KEY(category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE IF NOT EXISTS categories(
+    id INT NOT NULL PRIMARY KEY,
+    category_type VARCHAR(20)
+);
 ```
 
-Inserting some data values into the table
+Inserting some data values into the tables
 
 ```
-INSERT INTO "---" VALUES(sjsjs)
+INSERT INTO expenses (shop_name, amount, category_id) VALUES
+("Spotify", 17.89, 3),
+("Tokmanni", 2.89, 1),
+("Prisma", 11.48, 1),
+("Prisma", 5.02,1),
+("Wolt", 32.18, 2),
+("Alepa", 3.00, 1),
+("K-market", 69.02, 2);
+
+
+INSERT INTO categories (id, category_type) VALUES
+(1, "shop"),
+(2, "food"),
+(3, "other");
 ```
 
 ## Project self evalutation
