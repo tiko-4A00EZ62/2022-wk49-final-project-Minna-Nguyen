@@ -16,7 +16,7 @@ const getExpenseById = async (req, res) => {
 };
 
 const getExpenseByType = async (req, res) => {
-  const typeCategory = req.params.shop;
+  const typeCategory = req.params.type;
   const response = await expenses.filterCategory(typeCategory);
   if (response) {
     res.send(response);

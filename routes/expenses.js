@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/", getExpenses);
 router.get("/:id", getExpenseById);
-router.get("/category/:shop", getExpenseByType);
+router.get("/category/:type", getExpenseByType);
 router.get("/month/:month", getByMonth);
 
 module.exports = router;
