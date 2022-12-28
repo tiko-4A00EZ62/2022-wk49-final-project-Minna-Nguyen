@@ -1,0 +1,18 @@
+// get full list of expenses
+GET http://localhost:5001/api/expenses
+
+// get expense by ID
+###
+GET http://localhost:5001/api/expenses/2
+
+// filter by category type
+###
+GET http://localhost:5001/api/expenses/category/other
+###
+GET http://localhost:5001/api/expenses/category/shop
+###
+GET http://localhost:5001/api/expenses/category/food
+
+// filter by month
+###
+GET http://localhost:5001/api/expenses/month/2
