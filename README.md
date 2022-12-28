@@ -17,13 +17,13 @@ Sometimes we can't see where and how all of our money is going. In this project 
 I use this free service provider Render
 
 ```
-GET    /---            get ALL the expenses
-GET    /---            get expense by id
-GET    /---            get expense by month
-GET    /---            get expense by expense type
-DELETE /---            deletes ALL expenses
-DELETE /---            deletes expense by id (so one item from the list
-POST    /---           update expense
+GET     /api/expenses                        get ALL the expenses
+GET     /api/expenses/:id                    get expense by id
+GET     /api/expenses/month/:month           get expense by month
+GET     /api/expenses/category/:type         get expense by expense category type
+DELETE  /api/expenses/:id                    delete expense by id (so one item from the list)
+POST    /---                                 add new expense
+PUT     /api/expense/:id                     update certain expense using id to find it
 ```
 
 ### How to use this project (locally)
