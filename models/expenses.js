@@ -1,21 +1,54 @@
 const connection = require("../db/connection");
-// const { get } = require("../routes/expenses");
 
 const expenses = {
-  getAllExpenses: () => {
-    const getAll = `SELECT shop_name, category_type, amount, date
+  getAllExpenses: () =>
+    new Promise((resolve, reject) => {
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
 FROM expenses INNER JOIN categories ON category_id = categories.id
 ORDER BY amount DESC;`;
-    new Promise((resolve, reject) => {
       connection.query(getAll, (err, result) => {
         if (err) {
           reject(err);
-        } else {
-          resolve(result);
         }
+        resolve(result);
       });
-    });
-  },
+    }),
+
+  getById: (id) =>
+    new Promise((resolve, reject) => {
+      const getId = `SELECT expense_id, shop_name, category_type, amount, date
+  FROM expenses INNER JOIN categories ON category_id = categories.id WHERE expense_id=?`;
+      connection.query(getId, id, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+
+  filterCategory: (type) =>
+    new Promise((resolve, reject) => {
+      const filterType = `SELECT expense_id, shop_name, category_type, amount, date
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE category_type=?`;
+      connection.query(filterType, type, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+
+  getMonth: (month) =>
+    new Promise((resolve, reject) => {
+      const monthSelection = `SELECT expense_id, shop_name, category_type, amount, date
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(date)=?`;
+      connection.query(monthSelection, month, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
 };
 
 module.exports = expenses;
