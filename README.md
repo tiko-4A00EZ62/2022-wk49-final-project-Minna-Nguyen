@@ -34,7 +34,7 @@ Install `npm install mysql`
 Install the express node module `npm install express`.
 To make it easier to code this project uses 'nodemon' gloablly. To install it `npm install -g nodemon`
 
-For Mac users install it `npm install nodemon --save-dev` And to run it `npx nodemon index.js`
+For some Mac users `npm install -g` doesn't do anything so install it with `npm install nodemon --save-dev` And to run it `npx nodemon index.js`
 
 To run the index.js with `nodemon index.js` Nodemon will restart the application everytime new changes are done.
 
