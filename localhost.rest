@@ -1,6 +1,10 @@
 // get full list of expenses
 GET http://localhost:5001/api/expenses
 
+// get a list of total sum
+###
+GET http://localhost:5001/api/expenses/expenses/totalsum
+
 // get expense by ID
 ###
 GET http://localhost:5001/api/expenses/2

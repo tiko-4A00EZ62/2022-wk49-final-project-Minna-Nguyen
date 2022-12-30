@@ -21,6 +21,7 @@ GET     /api/expenses                        get ALL the expenses
 GET     /api/expenses/:id                    get expense by id
 GET     /api/expenses/month/:month           get expense by month
 GET     /api/expenses/category/:type         get expense by expense category type
+GET     /api/expense/expense/totalsum        get total expense sum
 DELETE  /api/expenses/:id                    delete expense by id (so one item from the list)
 POST    /---                                 add new expense
 PUT     /api/expense/:id                     update certain expense using id to find it

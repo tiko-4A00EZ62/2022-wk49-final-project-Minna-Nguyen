@@ -14,6 +14,19 @@ ORDER BY amount DESC;`;
       });
     }),
 
+  getSum: () =>
+    new Promise((resolve, reject) => {
+      const getSum = `SELECT sum(amount) as total_sum
+FROM expenses INNER JOIN categories ON category_id = categories.id
+ORDER BY amount DESC;`;
+      connection.query(getSum, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+
   getById: (id) =>
     new Promise((resolve, reject) => {
       const getId = `SELECT expense_id, shop_name, category_type, amount, date
