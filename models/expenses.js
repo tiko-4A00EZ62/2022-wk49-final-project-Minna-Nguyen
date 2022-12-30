@@ -62,6 +62,31 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(d
         resolve(result);
       });
     }),
+
+  getAmountLt: (amount) =>
+    new Promise((resolve, reject) => {
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<?
+`;
+      connection.query(getAll, amount, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  getAmountGt: (amount) =>
+    new Promise((resolve, reject) => {
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>?
+`;
+      connection.query(getAll, amount, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
 };
 
 module.exports = expenses;

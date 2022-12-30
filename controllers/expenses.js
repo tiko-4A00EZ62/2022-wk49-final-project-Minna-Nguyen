@@ -35,10 +35,27 @@ const getByMonth = async (req, res) => {
     res.send(response);
   }
 };
+
+const getAmountLt = async (req, res) => {
+  const filter = parseInt(req.params.amount);
+  const response = await expenses.getAmountLt(filter);
+  if (response) {
+    res.send(response);
+  }
+};
+const getAmountGt = async (req, res) => {
+  const filter = parseInt(req.params.amount);
+  const response = await expenses.getAmountGt(filter);
+  if (response) {
+    res.send(response);
+  }
+};
 module.exports = {
   getExpenses,
   getTotalSum,
   getExpenseByType,
   getExpenseById,
   getByMonth,
+  getAmountLt,
+  getAmountGt,
 };
