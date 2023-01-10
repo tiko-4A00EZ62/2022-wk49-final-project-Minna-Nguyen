@@ -14,23 +14,26 @@ Sometimes we can't see where and how all of our money is going. In this project 
 
 ## Backend server address and implemented endpoints
 
-I use this free service provider Render
+I use this free service provider Render. The site for the service is ...
 
 ```
 GET     /api/expenses                        get ALL the expenses
-GET     /api/expenses/:id                    get expense by id
-GET     /api/expenses/month/:month           get expense by month
-GET     /api/expenses/category/:type         get expense by expense category type
+GET     /api/expenses/1                      get expense by id
+GET     /api/expenses/month/2                get expense by month
+GET     /api/expenses/category/food          get expense by expense category type
 GET     /api/expense/expense/totalsum        get total expense sum
-GET     /api/expense/expense/lt10/:amount    get amounts that are less than 10
-GET     /api/expense/expense/gt10/:amount    get amounts that are greater than 10
+GET     /api/expense/expense/lt10/10         get amounts that are less than 10
+GET     /api/expense/expense/gt10/10         get amounts that are greater than 10
+GET     /api/expense/expense/shop/Prisma     get expense by shop name
 
-DELETE  /api/expenses/:id                    delete expense by id (so one item from the list)
+DELETE  /api/expenses/7                      delete expense by id (so one item from the list)
 
 POST    /---                                 add new expense
 
-PUT     /api/expense/:id                     update certain expense using id to find it
+PUT     /api/expense/7                     update certain expense using id to find it
 ```
+
+The ":x" is the variable used in the router path to
 
 ### How to use this project (locally)
 

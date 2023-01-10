@@ -66,7 +66,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(d
   getAmountLt: (amount) =>
     new Promise((resolve, reject) => {
       const getAll = `SELECT expense_id, shop_name, category_type, amount, date
-FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<?
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<?;
 `;
       connection.query(getAll, amount, (err, result) => {
         if (err) {
@@ -79,8 +79,19 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<
     new Promise((resolve, reject) => {
       const getAll = `SELECT expense_id, shop_name, category_type, amount, date
 FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>?
-`;
+;`;
       connection.query(getAll, amount, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  getShopName: (shopName) =>
+    new Promise((resolve, reject) => {
+      const getShopName = `SELECT expense_id, shop_name, category_type, amount, date 
+      FROM expenses INNER JOIN categories ON category_id = categories.id WHERE shop_name=?;`;
+      connection.query(getShopName, shopName, (err, result) => {
         if (err) {
           reject(err);
         }

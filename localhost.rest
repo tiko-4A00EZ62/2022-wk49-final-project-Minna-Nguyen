@@ -28,3 +28,7 @@ GET http://localhost:5001/api/expenses/lt10/10
 // get by amount greater than 10
 ###
 GET http://localhost:5001/api/expenses/gt10/10
+
+// get by shop name
+###
+GET http://localhost:5001/api/expenses/shop/Prisma

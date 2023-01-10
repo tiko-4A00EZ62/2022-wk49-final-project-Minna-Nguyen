@@ -8,6 +8,7 @@ const {
   getTotalSum,
   getAmountLt,
   getAmountGt,
+  getShop,
 } = require("../controllers/expenses");
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.get("/month/:month", getByMonth);
 router.get("/expenses/totalsum", getTotalSum);
 router.get("/lt10/:amount", getAmountLt);
 router.get("/gt10/:amount", getAmountGt);
+router.get("/shop/:shop", getShop);
 
 module.exports = router;

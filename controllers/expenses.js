@@ -50,6 +50,13 @@ const getAmountGt = async (req, res) => {
     res.send(response);
   }
 };
+const getShop = async (req, res) => {
+  const shopName = req.params.shop;
+  const response = await expenses.getShopName(shopName);
+  if (response) {
+    res.send(response);
+  }
+};
 module.exports = {
   getExpenses,
   getTotalSum,
@@ -58,4 +65,5 @@ module.exports = {
   getByMonth,
   getAmountLt,
   getAmountGt,
+  getShop,
 };
