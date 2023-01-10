@@ -57,6 +57,19 @@ const getShop = async (req, res) => {
     res.send(response);
   }
 };
+
+const newExpense = async (req, res) => {
+  const expense = {
+    shop_name: req.body.shop_name,
+    category_id: req.body.category_id,
+    amount: parseFloat(req.body.amount),
+  };
+  const response = await expenses.createExpense(expense);
+  if (response) {
+    res.send(expense);
+  }
+};
+
 module.exports = {
   getExpenses,
   getTotalSum,
@@ -66,4 +79,5 @@ module.exports = {
   getAmountLt,
   getAmountGt,
   getShop,
+  newExpense,
 };

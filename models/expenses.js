@@ -5,7 +5,7 @@ const expenses = {
     new Promise((resolve, reject) => {
       const getAll = `SELECT expense_id, shop_name, category_type, amount, date
 FROM expenses INNER JOIN categories ON category_id = categories.id
-ORDER BY amount DESC;`;
+ORDER BY amount ASC;`;
       connection.query(getAll, (err, result) => {
         if (err) {
           reject(err);
@@ -17,8 +17,7 @@ ORDER BY amount DESC;`;
   getSum: () =>
     new Promise((resolve, reject) => {
       const getSum = `SELECT sum(amount) as total_sum
-FROM expenses INNER JOIN categories ON category_id = categories.id
-ORDER BY amount DESC;`;
+FROM expenses INNER JOIN categories ON category_id = categories.id;`;
       connection.query(getSum, (err, result) => {
         if (err) {
           reject(err);
@@ -92,6 +91,17 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>
       const getShopName = `SELECT expense_id, shop_name, category_type, amount, date 
       FROM expenses INNER JOIN categories ON category_id = categories.id WHERE shop_name=?;`;
       connection.query(getShopName, shopName, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  createExpense: (expense) =>
+    new Promise((resolve, reject) => {
+      // console.log(expense);
+      const postNewExpense = `INSERT INTO expenses SET ?;`;
+      connection.query(postNewExpense, expense, (err, result) => {
         if (err) {
           reject(err);
         }

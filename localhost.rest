@@ -32,3 +32,11 @@ GET http://localhost:5001/api/expenses/gt10/10
 // get by shop name
 ###
 GET http://localhost:5001/api/expenses/shop/Prisma
+
+###
+POST http://localhost:5001/api/expenses
+Content-Type: application/json
+
+{"shop_name": "Alepa",
+"category_id": 1,
+"amount": 13.47}
