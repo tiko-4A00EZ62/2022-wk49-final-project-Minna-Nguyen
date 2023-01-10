@@ -28,7 +28,7 @@ GET     /api/expense/expense/shop/Prisma     get expense by shop name
 
 DELETE  /api/expenses/7                      delete expense by id (so one item from the list)
 
-POST    /---                                 add new expense
+POST    /api/expenses/                       add new expense
 
 PUT     /api/expense/7                     update certain expense using id to find it
 ```
