@@ -26,7 +26,7 @@ GET     /api/expense/expense/lt10/10         get amounts that are less than 10
 GET     /api/expense/expense/gt10/10         get amounts that are greater than 10
 GET     /api/expense/expense/shop/Prisma     get expense by shop name
 
-DELETE  /api/expenses/7                      delete expense by id (so one item from the list)
+DELETE  /api/expenses/7                      delete expense by id (remove one item from the list)
 
 POST    /api/expenses/                       add new expense
 

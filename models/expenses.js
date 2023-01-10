@@ -97,6 +97,14 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>
         resolve(result);
       });
     }),
+  deleteById: (id) =>
+    new Promise((resolve, reject) => {
+      const deleteId = `DELETE FROM expenses WHERE expense_id = ?`;
+      connection.query(deleteId, id, (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      });
+    }),
   createExpense: (expense) =>
     new Promise((resolve, reject) => {
       // console.log(expense);

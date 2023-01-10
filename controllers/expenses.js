@@ -57,7 +57,13 @@ const getShop = async (req, res) => {
     res.send(response);
   }
 };
-
+const deleteExpense = async (req, res) => {
+  const deleteById = parseInt(req.params.id);
+  const response = await expenses.deleteById(deleteById);
+  if (response) {
+    res.send("Expense deleted");
+  }
+};
 const newExpense = async (req, res) => {
   const expense = {
     shop_name: req.body.shop_name,
@@ -79,5 +85,6 @@ module.exports = {
   getAmountLt,
   getAmountGt,
   getShop,
+  deleteExpense,
   newExpense,
 };

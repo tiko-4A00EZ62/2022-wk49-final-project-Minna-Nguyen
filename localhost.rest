@@ -33,6 +33,11 @@ GET http://localhost:5001/api/expenses/gt10/10
 ###
 GET http://localhost:5001/api/expenses/shop/Prisma
 
+// DELETE expense by id
+###
+DELETE http://localhost:5001/api/expenses/17
+
+// POST new expense
 ###
 POST http://localhost:5001/api/expenses
 Content-Type: application/json
