@@ -7,7 +7,7 @@ GET http://localhost:5001/api/expenses/expenses/totalsum
 
 // get expense by ID
 ###
-GET http://localhost:5001/api/expenses/2
+GET http://localhost:5001/api/expenses/12
 
 // filter by category type
 ###
@@ -31,7 +31,7 @@ GET http://localhost:5001/api/expenses/gt10/10
 
 // get by shop name
 ###
-GET http://localhost:5001/api/expenses/shop/Prisma
+GET http://localhost:5001/api/expenses/shop/Sale
 
 // DELETE expense by id
 ###
@@ -45,3 +45,13 @@ Content-Type: application/json
 {"shop_name": "Alepa",
 "category_id": 1,
 "amount": 13.47}
+
+// update expense by id
+###
+PUT http://localhost:5001/api/expenses/12
+Content-Type: application/json
+
+{"shop_name": "Sale",
+"category_id": 1,
+"amount": 50,
+"date": "2023-01-23"}

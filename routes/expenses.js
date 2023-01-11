@@ -11,6 +11,7 @@ const {
   getShop,
   deleteExpense,
   newExpense,
+  updateById,
 } = require("../controllers/expenses");
 const router = express.Router();
 
@@ -24,6 +25,9 @@ router.get("/gt10/:amount", getAmountGt);
 router.get("/shop/:shop", getShop);
 
 router.delete("/:id", deleteExpense);
+
 router.post("/", newExpense);
+
+router.put("/:id", updateById);
 
 module.exports = router;

@@ -30,10 +30,10 @@ DELETE  /api/expenses/7                      delete expense by id (remove one it
 
 POST    /api/expenses/                       add new expense
 
-PUT     /api/expense/7                     update certain expense using id to find it
+PUT     /api/expense/7                       update certain expense using id to find it
 ```
 
-The ":x" is the variable used in the router path to
+The ":x" is a variable to be used in our code
 
 ### How to use this project (locally)
 

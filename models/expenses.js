@@ -116,6 +116,26 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>
         resolve(result);
       });
     }),
+  updateById: (update) =>
+    new Promise((resolve, reject) => {
+      const updateExpense = `UPDATE expenses SET shop_name = ?, category_id = ?, amount = ?, date = ? WHERE expense_id = ? `;
+      connection.query(
+        updateExpense,
+        [
+          update.shop_name,
+          update.category_id,
+          update.amount,
+          update.date,
+          update.expense_id,
+        ],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
+    }),
 };
 
 module.exports = expenses;

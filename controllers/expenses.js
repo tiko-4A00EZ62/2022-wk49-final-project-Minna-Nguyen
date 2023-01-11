@@ -75,6 +75,24 @@ const newExpense = async (req, res) => {
     res.send(expense);
   }
 };
+const updateById = async (req, res) => {
+  const id = req.params.id;
+  // const getId = await expenses.getById(id);
+  // if (getId) {
+  //   console.log("löyty");
+  // }
+  const updateExpense = {
+    shop_name: req.body.shop_name,
+    category_id: req.body.category_id,
+    amount: parseFloat(req.body.amount),
+    date: req.body.date,
+    expense_id: id,
+  };
+  const update = await expenses.updateById(updateExpense);
+  if (update) {
+    res.send("Expense updated");
+  }
+};
 
 module.exports = {
   getExpenses,
@@ -87,4 +105,5 @@ module.exports = {
   getShop,
   deleteExpense,
   newExpense,
+  updateById,
 };
