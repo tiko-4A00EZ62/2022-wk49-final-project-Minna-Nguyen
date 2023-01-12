@@ -1,0 +1,28 @@
+{
+  "name": "2022-wk49-final-project-minna-nguyen",
+  "version": "1.0.0",
+  "description": "## Backend Development - Final Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Minna-Nguyen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Minna-Nguyen/issues"
+  },
+  "homepage": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Minna-Nguyen#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
