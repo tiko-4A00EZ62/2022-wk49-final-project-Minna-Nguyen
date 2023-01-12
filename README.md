@@ -50,7 +50,7 @@ To run the index.js with `nodemon index.js` Nodemon will restart the application
 Create a `.env` file to store conneciton information. Make sure not to let anybody see the credentials. You need to install 'dotenv' to the read the `.env` file.
 `npm install dotenv --save`
 
-# In case the installation does not find the required modules...
+### In case the installation does not find the required modules...
 
 Try runnin `npm install express dotenv mysql`. This will install all the required modules. Now the application should find the modules and run it fine. Run it with `nodemon index.js` or `npx nodemon index.js` command.
 
