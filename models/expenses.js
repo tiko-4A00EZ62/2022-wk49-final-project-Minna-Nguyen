@@ -5,7 +5,7 @@ const expenses = {
     new Promise((resolve, reject) => {
       const getAll = `SELECT expense_id, shop_name, category_type, amount, date
 FROM expenses INNER JOIN categories ON category_id = categories.id
-ORDER BY amount ASC;`;
+`;
       connection.query(getAll, (err, result) => {
         if (err) {
           reject(err);
