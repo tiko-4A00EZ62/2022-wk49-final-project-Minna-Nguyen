@@ -7,7 +7,8 @@ const getExpenses = async (req, res) => {
       res.send(response);
     }
   } catch (error) {
-    res.sendStatus(500);
+    // res.sendStatus(500);
+    res.send("HELP SOS");
   }
 };
 const getTotalSum = async (req, res) => {
