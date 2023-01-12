@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // ths is the basic mount path
-app.use("/api/expenses", routes);
+app.use("/", routes);
 
 app.get("/health", (req, res) => {
   res.send("200 OK");
