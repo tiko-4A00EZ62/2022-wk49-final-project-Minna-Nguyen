@@ -55,3 +55,6 @@ Content-Type: application/json
 "category_id": 1,
 "amount": 50,
 "date": "2023-01-23"}
+// healt checkpoint
+###
+GET http://localhost:5001/api/expenses/check/health
