@@ -41,15 +41,10 @@ FROM expenses INNER JOIN categories ON category_id = categories.id;`;
   findByExpense: (expense) =>
     new Promise((resolve, reject) => {
       const checkDublicateExpense =
-        "SELECT * FROM expenses WHERE shop_name LIKE ? AND category_id = ? AND amount LIKE ? AND expense_date LIKE ?;";
+        "SELECT * FROM expenses WHERE shop_name LIKE ? AND category_id = ? AND amount LIKE ?;";
       connection.query(
         checkDublicateExpense,
-        [
-          expense.shop_name,
-          expense.category_id,
-          expense.amount,
-          expense.expense_date,
-        ],
+        [expense.shop_name, expense.category_id, expense.amount],
         (err, result) => {
           if (err) {
             reject(err);
