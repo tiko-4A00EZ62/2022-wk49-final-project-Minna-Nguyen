@@ -1,0 +1,60 @@
+// health end point
+GET  http://trackexpense.onrender.com/health
+###
+// get full list of expenses
+GET http://trackexpense.onrender.com/api/expenses
+
+// get a list of total sum
+###
+GET http://trackexpense.onrender.com/api/expenses/expenses/totalsum
+
+// get expense by ID
+###
+GET http://trackexpense.onrender.com/api/expenses/12
+
+// filter by category type
+###
+GET http://trackexpense.onrender.com/api/expenses/category/other
+###
+GET http://trackexpense.onrender.com/api/expenses/category/shop
+###
+GET http://trackexpense.onrender.com/api/expenses/category/food
+
+// filter by month
+###
+GET http://trackexpense.onrender.com/api/expenses/month/2
+
+// get by amount less than 10
+###
+GET http://trackexpense.onrender.com/api/expenses/lt10/10
+
+// get by amount greater than 10
+###
+GET http://trackexpense.onrender.com/api/expenses/gt10/10
+
+// get by shop name
+###
+GET http://trackexpense.onrender.com/api/expenses/shop/Sale
+
+// DELETE expense by id
+###
+DELETE http://trackexpense.onrender.com/api/expenses/17
+
+// POST new expense
+###
+POST http://trackexpense.onrender.com/api/expenses
+Content-Type: application/json
+
+{"shop_name": "Alepa",
+"category_id": 1,
+"amount": 13.47}
+
+// update expense by id
+###
+PUT http://trackexpense.onrender.com/api/expenses/12
+Content-Type: application/json
+
+{"shop_name": "Sale",
+"category_id": 1,
+"amount": 50,
+"date": "2023-01-23"}
