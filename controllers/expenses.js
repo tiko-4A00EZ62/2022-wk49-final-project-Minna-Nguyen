@@ -39,8 +39,10 @@ const getExpenseByType = async (req, res) => {
   const typeCategory = req.params.type;
   try {
     const response = await expenses.filterCategory(typeCategory);
-    if (response) {
+    if (response.length !== 0) {
       res.send(response);
+    } else {
+      res.status(404).send("no expense by category type");
     }
   } catch (error) {
     res.sendStatus(500);
@@ -84,9 +86,19 @@ const getAmountGt = async (req, res) => {
 const getShop = async (req, res) => {
   const shopName = req.params.shop;
   try {
+    const data = await expenses.getAllExpenses();
     const response = await expenses.getShopName(shopName);
-    if (response) {
+    let ok = null;
+    // check if shop name is in the database
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].shop_name === shopName) {
+        ok = true;
+      }
+    }
+    if (ok) {
       res.send(response);
+    } else {
+      res.status(404).send("expense doesn't exist");
     }
   } catch (error) {
     res.sendStatus(500);
