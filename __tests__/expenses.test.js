@@ -1,6 +1,5 @@
 const { describe, expect, test } = require("@jest/globals");
 const supertest = require("supertest");
-// const connection = require("../db/connection");
 const app = require("../app");
 
 describe("GET expenses endpoint", () => {
@@ -17,25 +16,25 @@ describe("GET expenses endpoint", () => {
     expect(response.body).toEqual(
       expect.arrayContaining([
         {
+          expense_id: 1,
+          shop_name: "Spotify",
+          category_type: "other",
+          amount: 17.89,
+          expense_date: "2023-01-14T20:16:10.000Z",
+        },
+        {
           expense_id: 2,
           shop_name: "Tokmanni",
           category_type: "shop",
           amount: 2.89,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
-          expense_id: 6,
-          shop_name: "Alepa",
-          category_type: "shop",
-          amount: 3,
-          date: "2022-12-27T16:05:50.000Z",
-        },
-        {
-          expense_id: 4,
+          expense_id: 3,
           shop_name: "Prisma",
           category_type: "shop",
-          amount: 5.02,
-          date: "2022-12-27T16:05:50.000Z",
+          amount: 11.48,
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -43,7 +42,7 @@ describe("GET expenses endpoint", () => {
   // endpoint by id
   test("Should return expense 2", async () => {
     const response = await supertest(app)
-      .get("/api/expenses/12")
+      .get("/api/expenses/2")
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
@@ -52,17 +51,17 @@ describe("GET expenses endpoint", () => {
     );
     expect(response.body).toEqual(
       expect.objectContaining({
-        expense_id: 12,
-        shop_name: "Sale",
+        expense_id: 2,
+        shop_name: "Tokmanni",
         category_type: "shop",
-        amount: 50,
-        date: "2023-01-22T22:00:00.000Z",
+        amount: 2.89,
+        expense_date: "2023-01-14T20:16:10.000Z",
       })
     );
   });
   // error testing
   test("Should return 404 and not found", async () => {
-    const response = await supertest(app).get("/api/expenses/202");
+    const response = await supertest(app).get("/api/expenses/2000000");
     expect(response.status).toEqual(404);
     expect(response.text).toContain("not found");
   });
@@ -83,21 +82,21 @@ describe("GET expenses endpoint", () => {
           shop_name: "Tokmanni",
           category_type: "shop",
           amount: 2.89,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
           expense_id: 3,
           shop_name: "Prisma",
           category_type: "shop",
           amount: 11.48,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
           expense_id: 4,
           shop_name: "Prisma",
           category_type: "shop",
           amount: 5.02,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -125,14 +124,14 @@ describe("GET expenses endpoint", () => {
           shop_name: "Spotify",
           category_type: "other",
           amount: 17.89,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
-          expense_id: 8,
-          shop_name: "Rituals",
+          expense_id: 9,
+          shop_name: "Apple Store",
           category_type: "other",
-          amount: 10.9,
-          date: "2022-02-12T22:00:00.000Z",
+          amount: 229,
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -154,14 +153,21 @@ describe("GET expenses endpoint", () => {
           shop_name: "Wolt",
           category_type: "food",
           amount: 32.18,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
           expense_id: 7,
           shop_name: "K-market",
           category_type: "food",
           amount: 69.02,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
+        },
+        {
+          expense_id: 8,
+          shop_name: "Pancho Villa",
+          category_type: "food",
+          amount: 23.99,
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -169,7 +175,7 @@ describe("GET expenses endpoint", () => {
   // endpoint by month
   test("Should return list of expenses with month filter", async () => {
     const response = await supertest(app)
-      .get("/api/expenses/month/2")
+      .get("/api/expenses/month/1")
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
@@ -179,19 +185,31 @@ describe("GET expenses endpoint", () => {
     expect(response.body).toEqual(
       expect.arrayContaining([
         {
-          expense_id: 8,
-          shop_name: "Rituals",
+          expense_id: 1,
+          shop_name: "Spotify",
           category_type: "other",
-          amount: 10.9,
-          date: "2022-02-12T22:00:00.000Z",
+          amount: 17.89,
+          expense_date: "2023-01-14T20:16:10.000Z",
+        },
+        {
+          expense_id: 2,
+          shop_name: "Tokmanni",
+          category_type: "shop",
+          amount: 2.89,
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
   });
+  test("Should return 404 and no expense by this month", async () => {
+    const response = await supertest(app).get("/api/expenses/month/5");
+    expect(response.status).toEqual(404);
+    expect(response.text).toContain("no expenses in this month");
+  });
   // endpoint by shop name
   test("Should return list of expenses by shop name", async () => {
     const response = await supertest(app)
-      .get("/api/expenses/shop/Sale")
+      .get("/api/expenses/shop/Alepa")
       .set("Accept", "application/json");
 
     expect(response.status).toEqual(200);
@@ -201,25 +219,11 @@ describe("GET expenses endpoint", () => {
     expect(response.body).toEqual(
       expect.arrayContaining([
         {
-          expense_id: 11,
-          shop_name: "Sale",
+          expense_id: 6,
+          shop_name: "Alepa",
           category_type: "shop",
-          amount: 50,
-          date: "2023-01-22T22:00:00.000Z",
-        },
-        {
-          expense_id: 12,
-          shop_name: "Sale",
-          category_type: "shop",
-          amount: 50,
-          date: "2023-01-22T22:00:00.000Z",
-        },
-        {
-          expense_id: 19,
-          shop_name: "Sale",
-          category_type: "shop",
-          amount: 50,
-          date: "2023-01-22T22:00:00.000Z",
+          amount: 3,
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -246,21 +250,14 @@ describe("GET expenses endpoint", () => {
           shop_name: "Tokmanni",
           category_type: "shop",
           amount: 2.89,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
           expense_id: 4,
           shop_name: "Prisma",
           category_type: "shop",
           amount: 5.02,
-          date: "2022-12-27T16:05:50.000Z",
-        },
-        {
-          expense_id: 6,
-          shop_name: "Alepa",
-          category_type: "shop",
-          amount: 3,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -281,21 +278,14 @@ describe("GET expenses endpoint", () => {
           shop_name: "Spotify",
           category_type: "other",
           amount: 17.89,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
         {
           expense_id: 3,
           shop_name: "Prisma",
           category_type: "shop",
           amount: 11.48,
-          date: "2022-12-27T16:05:50.000Z",
-        },
-        {
-          expense_id: 5,
-          shop_name: "Wolt",
-          category_type: "food",
-          amount: 32.18,
-          date: "2022-12-27T16:05:50.000Z",
+          expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
     );
@@ -303,13 +293,12 @@ describe("GET expenses endpoint", () => {
 });
 
 describe("POST expense endpoint", () => {
-  const connection = require("../db/connection");
-
   test("Should create new expense", async () => {
     const expense = {
-      shop_name: "Apple Store",
-      category_id: 3,
-      amount: 24.9,
+      shop_name: "Pancho Villa",
+      category_id: 2,
+      amount: 32,
+      expense_date: "2022-12-11T22:00:00.000Z",
     };
 
     const response = await supertest(app)
@@ -322,9 +311,10 @@ describe("POST expense endpoint", () => {
       "application/json; charset=utf-8"
     );
     // expect(response.body.expense_id).toBeTruthy();
-    expect(response.body.shop_name).toEqual("Apple Store");
-    expect(response.body.category_id).toEqual(3);
-    expect(response.body.amount).toEqual(24.9);
+    expect(response.body.shop_name).toEqual("Pancho Villa");
+    expect(response.body.category_id).toEqual(2);
+    expect(response.body.amount).toEqual(32);
+    expect(response.body.expense_date).toEqual("2022-12-11T22:00:00.000Z");
   });
   test("Shop name required", async () => {
     const expense = {
@@ -467,11 +457,45 @@ describe("POST expense endpoint", () => {
       '"amount" must be greater than or equal to 1'
     );
   });
-  test("Should create new expense", async () => {
+  test("Date must be greater than or equal", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+      amount: 229,
+      expense_date: "2001-02-22",
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"expense_date" must be greater than or equal to "2005-01-01T00:00:00.000Z"'
+    );
+  });
+  test("Date required", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+      amount: 229,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"expense_date" is required');
+  });
+  test("Expense already exist", async () => {
     const expense = {
       shop_name: "Apple Store",
       category_id: 3,
       amount: 24.91,
+      expense_date: "2021-03-21T22:00:00.000Z",
     };
 
     const response = await supertest(app)
@@ -482,9 +506,9 @@ describe("POST expense endpoint", () => {
     expect(response.status).toEqual(400);
     expect(response.text).toContain("expense already exist");
   });
-
+  const connection = require("../db/connection");
   afterAll(async () => {
-    const deleteQuery = `DELETE FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 3 AND amount LIKE 24.91;`;
+    const deleteQuery = `DELETE FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 3 AND amount LIKE 24.91 AND expense_date LIKE "2021-03-21T22:00:00.000Z";`;
     connection.query(deleteQuery, (err, result) => {
       if (err) {
         console.log(err);
@@ -492,3 +516,37 @@ describe("POST expense endpoint", () => {
     });
   });
 });
+
+// describe("DELETE expense endpoint", () => {
+//   test("should delete the expense by id", async () => {
+//     // create city to delete
+//     const expense = {
+//       shop_name: "Ristorante Momento",
+//       category_id: 2,
+//       amount: 18.1,
+//       date: "2022-10-21T21:00:00.000Z",
+//     };
+
+//     const response = await supertest(app)
+//       .post("/api/expenses")
+//       .set("Accept", "application/json")
+//       .send(expense);
+
+//     const postId = response.body.expense_id;
+
+//     const deleteExpense = await supertest(app)
+//       .delete(`/api/expenses/${postId}`)
+//       .set("Accept", "application/json");
+//     expect(deleteExpense.status).toEqual(200);
+//     expect(deleteExpense.text).toEqual("expense deleted");
+//   });
+
+//   test("should check that city with id exists", async () => {
+//     const response = await supertest(app)
+//       .delete("/api/expenses/32")
+//       .set("Accept", "application/json");
+
+//     expect(response.status).toEqual(404);
+//     expect(response.text).toEqual("not found");
+//   });
+// });
