@@ -107,9 +107,16 @@ const getShop = async (req, res) => {
 const deleteExpense = async (req, res) => {
   const deleteById = parseInt(req.params.id);
   try {
+    // check if exist
+    const result = await expenses.getById(deleteById);
+    if (result.length === 0) {
+      res.status(404).send("not found");
+      return;
+    }
+    // delete
     const response = await expenses.deleteById(deleteById);
-    if (response) {
-      res.send("Expense deleted");
+    if (response.affectedRows === 1) {
+      res.status(200).send("expense deleted");
     }
   } catch (error) {
     res.sendStatus(500);
@@ -121,6 +128,7 @@ const newExpense = async (req, res) => {
     shop_name: Joi.string().min(2).required(),
     category_id: Joi.number().integer().min(1).max(3).required(),
     amount: Joi.number().min(1).required(),
+    date: Joi.date().min("2005-01-01").required(),
   });
 
   // Validate the req.body against the schema
@@ -136,6 +144,7 @@ const newExpense = async (req, res) => {
     shop_name: req.body.shop_name,
     category_id: req.body.category_id,
     amount: parseFloat(req.body.amount),
+    date: req.body.date,
   };
   try {
     const alreadyExist = await expenses.findByExpense(expense);

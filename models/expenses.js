@@ -3,7 +3,7 @@ const connection = require("../db/connection");
 const expenses = {
   getAllExpenses: () =>
     new Promise((resolve, reject) => {
-      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, expense_date
 FROM expenses INNER JOIN categories ON category_id = categories.id
 `;
       connection.query(getAll, (err, result) => {
@@ -28,7 +28,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id;`;
 
   getById: (id) =>
     new Promise((resolve, reject) => {
-      const getId = `SELECT expense_id, shop_name, category_type, amount, date
+      const getId = `SELECT expense_id, shop_name, category_type, amount, expense_date
   FROM expenses INNER JOIN categories ON category_id = categories.id WHERE expense_id=?`;
       connection.query(getId, id, (err, result) => {
         if (err) {
@@ -41,10 +41,15 @@ FROM expenses INNER JOIN categories ON category_id = categories.id;`;
   findByExpense: (expense) =>
     new Promise((resolve, reject) => {
       const checkDublicateExpense =
-        "SELECT * FROM expenses WHERE shop_name LIKE ? AND category_id = ? AND amount LIKE ?;";
+        "SELECT * FROM expenses WHERE shop_name LIKE ? AND category_id = ? AND amount LIKE ? AND expense_date LIKE ?;";
       connection.query(
         checkDublicateExpense,
-        [expense.shop_name, expense.category_id, expense.amount],
+        [
+          expense.shop_name,
+          expense.category_id,
+          expense.amount,
+          expense.expense_date,
+        ],
         (err, result) => {
           if (err) {
             reject(err);
@@ -56,7 +61,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id;`;
 
   filterCategory: (type) =>
     new Promise((resolve, reject) => {
-      const filterType = `SELECT expense_id, shop_name, category_type, amount, date
+      const filterType = `SELECT expense_id, shop_name, category_type, amount, expense_date
 FROM expenses INNER JOIN categories ON category_id = categories.id WHERE category_type=?`;
       connection.query(filterType, type, (err, result) => {
         if (err) {
@@ -68,8 +73,8 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE categor
 
   getMonth: (month) =>
     new Promise((resolve, reject) => {
-      const monthSelection = `SELECT expense_id, shop_name, category_type, amount, date
-FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(date)=?`;
+      const monthSelection = `SELECT expense_id, shop_name, category_type, amount, expense_date
+FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(expense_date)=?`;
       connection.query(monthSelection, month, (err, result) => {
         if (err) {
           reject(err);
@@ -80,7 +85,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE MONTH(d
 
   getAmountLt: (amount) =>
     new Promise((resolve, reject) => {
-      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, expense_date
 FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<?;
 `;
       connection.query(getAll, amount, (err, result) => {
@@ -92,7 +97,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount<
     }),
   getAmountGt: (amount) =>
     new Promise((resolve, reject) => {
-      const getAll = `SELECT expense_id, shop_name, category_type, amount, date
+      const getAll = `SELECT expense_id, shop_name, category_type, amount, expense_date
 FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>?
 ;`;
       connection.query(getAll, amount, (err, result) => {
@@ -104,7 +109,7 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>
     }),
   getShopName: (shopName) =>
     new Promise((resolve, reject) => {
-      const getShopName = `SELECT expense_id, shop_name, category_type, amount, date 
+      const getShopName = `SELECT expense_id, shop_name, category_type, amount, expense_date 
       FROM expenses INNER JOIN categories ON category_id = categories.id WHERE shop_name=?;`;
       connection.query(getShopName, shopName, (err, result) => {
         if (err) {
@@ -134,14 +139,14 @@ FROM expenses INNER JOIN categories ON category_id = categories.id WHERE amount>
     }),
   updateById: (update) =>
     new Promise((resolve, reject) => {
-      const updateExpense = `UPDATE expenses SET shop_name = ?, category_id = ?, amount = ?, date = ? WHERE expense_id = ? `;
+      const updateExpense = `UPDATE expenses SET shop_name = ?, category_id = ?, amount = ?, expense_date = ? WHERE expense_id = ? `;
       connection.query(
         updateExpense,
         [
           update.shop_name,
           update.category_id,
           update.amount,
-          update.date,
+          update.expense_date,
           update.expense_id,
         ],
         (err, result) => {
