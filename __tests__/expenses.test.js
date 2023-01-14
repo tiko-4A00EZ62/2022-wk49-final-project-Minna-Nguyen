@@ -1,5 +1,6 @@
 const { describe, expect, test } = require("@jest/globals");
 const supertest = require("supertest");
+// const connection = require("../db/connection");
 const app = require("../app");
 
 describe("GET expenses endpoint", () => {
@@ -100,6 +101,12 @@ describe("GET expenses endpoint", () => {
         },
       ])
     );
+  });
+  // error testing
+  test("Should return 404 and no expense by category type", async () => {
+    const response = await supertest(app).get("/api/expenses/category/cake");
+    expect(response.status).toEqual(404);
+    expect(response.text).toContain("no expense by category type");
   });
   // endpoint by other category filter
   test("Should return list of expenses with 'other' category", async () => {
@@ -217,7 +224,12 @@ describe("GET expenses endpoint", () => {
       ])
     );
   });
-
+  //error testing
+  test("Should return 404 and expense doesn't exist", async () => {
+    const response = await supertest(app).get("/api/expenses/shop/delulu");
+    expect(response.status).toEqual(404);
+    expect(response.text).toContain("expense doesn't exist");
+  });
   test("Should return list of expenses less than 10", async () => {
     const response = await supertest(app)
       .get("/api/expenses/lt10/10")
@@ -287,5 +299,196 @@ describe("GET expenses endpoint", () => {
         },
       ])
     );
+  });
+});
+
+describe("POST expense endpoint", () => {
+  const connection = require("../db/connection");
+
+  test("Should create new expense", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+      amount: 24.9,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(201);
+    expect(response.headers["content-type"]).toMatch(
+      "application/json; charset=utf-8"
+    );
+    // expect(response.body.expense_id).toBeTruthy();
+    expect(response.body.shop_name).toEqual("Apple Store");
+    expect(response.body.category_id).toEqual(3);
+    expect(response.body.amount).toEqual(24.9);
+  });
+  test("Shop name required", async () => {
+    const expense = {
+      category_id: 3,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"shop_name" is required');
+  });
+  test("Name cannot be too short", async () => {
+    const expense = {
+      shop_name: "A",
+      category_id: 3,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"shop_name" length must be at least 2 characters long'
+    );
+  });
+  test("Name cannot be empty", async () => {
+    const expense = {
+      shop_name: "",
+      category_id: 3,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"shop_name" is not allowed to be empty');
+  });
+
+  test("Category id must have a number", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"category_id" is required');
+  });
+  test("Category id cannot be negative or 0", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 0,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"category_id" must be greater than or equal to 1'
+    );
+  });
+  test("Category id cannot be over 3", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 4,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"category_id" must be less than or equal to 3'
+    );
+  });
+  test("Category id must be an integer", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3.2,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"category_id" must be an integer');
+  });
+  test("Amount required", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"amount" is required');
+  });
+  test("Amount must be one or greater than one", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+      amount: -1,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"amount" must be greater than or equal to 1'
+    );
+  });
+  test("Should create new expense", async () => {
+    const expense = {
+      shop_name: "Apple Store",
+      category_id: 3,
+      amount: 24.91,
+    };
+
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain("expense already exist");
+  });
+
+  afterAll(async () => {
+    const deleteQuery = `DELETE FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 3 AND amount LIKE 24.91;`;
+    connection.query(deleteQuery, (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   });
 });
