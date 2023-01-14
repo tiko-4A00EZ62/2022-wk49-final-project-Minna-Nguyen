@@ -305,7 +305,6 @@ describe("POST expense endpoint", () => {
       .post("/api/expenses")
       .set("Accept", "application/json")
       .send(expense);
-
     expect(response.status).toEqual(201);
     expect(response.headers["content-type"]).toMatch(
       "application/json; charset=utf-8"
@@ -524,18 +523,16 @@ describe("DELETE expense endpoint", () => {
       shop_name: "Ristorante Momento",
       category_id: 2,
       amount: 18.1,
-      date: "2022-10-21T21:00:00.000Z",
-      expense_id: 200,
+      expense_date: "2022-10-21T21:00:00.000Z",
     };
 
     const response = await supertest(app)
       .post("/api/expenses")
       .set("Accept", "application/json")
       .send(expense);
+    const postId = response.body.expense_id;
 
-    const postId = expense.expense_id;
-    console.log(expense);
-
+    console.log(response);
     const deleteExpense = await supertest(app)
       .delete(`/api/expenses/${postId}`)
       .set("Accept", "application/json");
