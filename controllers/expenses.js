@@ -53,8 +53,20 @@ const getByMonth = async (req, res) => {
   const getMonth = req.params.month;
   try {
     const response = await expenses.getMonth(getMonth);
-    if (response) {
+
+    // const data = await expenses.getAllExpenses();
+    // let ok = null;
+    // // check if shop name is in the database
+    // for (let i = 0; i < data.length; i++) {
+    //   if (data[i].expense.date === getByMonth) {
+    //     ok = true;
+    //   }
+    // }
+
+    if (response.length !== 0) {
       res.send(response);
+    } else {
+      res.status(404).send("no expenses in this month");
     }
   } catch (error) {
     res.sendStatus(500);
@@ -128,7 +140,7 @@ const newExpense = async (req, res) => {
     shop_name: Joi.string().min(2).required(),
     category_id: Joi.number().integer().min(1).max(3).required(),
     amount: Joi.number().min(1).required(),
-    date: Joi.date().min("2005-01-01").required(),
+    expense_date: Joi.date().min("2005-01-01").required(),
   });
 
   // Validate the req.body against the schema
@@ -144,7 +156,7 @@ const newExpense = async (req, res) => {
     shop_name: req.body.shop_name,
     category_id: req.body.category_id,
     amount: parseFloat(req.body.amount),
-    date: req.body.date,
+    expense_date: req.body.expense_date,
   };
   try {
     const alreadyExist = await expenses.findByExpense(expense);
