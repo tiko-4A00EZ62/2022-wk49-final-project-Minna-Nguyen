@@ -508,7 +508,7 @@ describe("POST expense endpoint", () => {
   });
   const connection = require("../db/connection");
   afterAll(async () => {
-    const deleteQuery = `DELETE FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 3 AND amount LIKE 24.91 AND expense_date LIKE "2021-03-21T22:00:00.000Z";`;
+    const deleteQuery = `DELETE FROM expenses WHERE shop_name LIKE 'Pancho Villa' AND category_id LIKE 2 AND amount LIKE 32.00;`;
     connection.query(deleteQuery, (err, result) => {
       if (err) {
         console.log(err);
@@ -517,36 +517,38 @@ describe("POST expense endpoint", () => {
   });
 });
 
-// describe("DELETE expense endpoint", () => {
-//   test("should delete the expense by id", async () => {
-//     // create city to delete
-//     const expense = {
-//       shop_name: "Ristorante Momento",
-//       category_id: 2,
-//       amount: 18.1,
-//       date: "2022-10-21T21:00:00.000Z",
-//     };
+describe("DELETE expense endpoint", () => {
+  test("should delete the expense by id", async () => {
+    // create expense to delete
+    const expense = {
+      shop_name: "Ristorante Momento",
+      category_id: 2,
+      amount: 18.1,
+      date: "2022-10-21T21:00:00.000Z",
+      expense_id: 200,
+    };
 
-//     const response = await supertest(app)
-//       .post("/api/expenses")
-//       .set("Accept", "application/json")
-//       .send(expense);
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
 
-//     const postId = response.body.expense_id;
+    const postId = expense.expense_id;
+    console.log(expense);
 
-//     const deleteExpense = await supertest(app)
-//       .delete(`/api/expenses/${postId}`)
-//       .set("Accept", "application/json");
-//     expect(deleteExpense.status).toEqual(200);
-//     expect(deleteExpense.text).toEqual("expense deleted");
-//   });
+    const deleteExpense = await supertest(app)
+      .delete(`/api/expenses/${postId}`)
+      .set("Accept", "application/json");
+    expect(deleteExpense.status).toEqual(200);
+    expect(deleteExpense.text).toEqual("expense deleted");
+  });
 
-//   test("should check that city with id exists", async () => {
-//     const response = await supertest(app)
-//       .delete("/api/expenses/32")
-//       .set("Accept", "application/json");
+  test("should check that city with id exists", async () => {
+    const response = await supertest(app)
+      .delete("/api/expenses/32")
+      .set("Accept", "application/json");
 
-//     expect(response.status).toEqual(404);
-//     expect(response.text).toEqual("not found");
-//   });
-// });
+    expect(response.status).toEqual(404);
+    expect(response.text).toEqual("not found");
+  });
+});
