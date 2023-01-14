@@ -1,5 +1,5 @@
 const expenses = require("../models/expenses");
-
+const Joi = require("joi");
 const getExpenses = async (req, res) => {
   try {
     const response = await expenses.getAllExpenses();
@@ -116,15 +116,37 @@ const deleteExpense = async (req, res) => {
   }
 };
 const newExpense = async (req, res) => {
+  // Define the schema
+  const schema = Joi.object({
+    shop_name: Joi.string().min(2).required(),
+    category_id: Joi.number().integer().min(1).max(3).required(),
+    amount: Joi.number().min(1).required(),
+  });
+
+  // Validate the req.body against the schema
+  // Validate returns an error object if there are validation errors
+  const { error } = schema.validate(req.body);
+  if (error) {
+    //Sending back the error details
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+
   const expense = {
     shop_name: req.body.shop_name,
     category_id: req.body.category_id,
     amount: parseFloat(req.body.amount),
   };
   try {
+    const alreadyExist = await expenses.findByExpense(expense);
+    if (alreadyExist.length > 0) {
+      res.status(400).send("expense already exist");
+      return;
+    }
     const response = await expenses.createExpense(expense);
     if (response) {
-      res.send(expense);
+      expense.expense_id = response.expense_id;
+      res.status(201).send(expense);
     }
   } catch (error) {
     res.sendStatus(500);

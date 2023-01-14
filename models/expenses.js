@@ -38,6 +38,22 @@ FROM expenses INNER JOIN categories ON category_id = categories.id;`;
       });
     }),
 
+  findByExpense: (expense) =>
+    new Promise((resolve, reject) => {
+      const checkDublicateExpense =
+        "SELECT * FROM expenses WHERE shop_name LIKE ? AND category_id = ? AND amount LIKE ?;";
+      connection.query(
+        checkDublicateExpense,
+        [expense.shop_name, expense.category_id, expense.amount],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
+    }),
+
   filterCategory: (type) =>
     new Promise((resolve, reject) => {
       const filterType = `SELECT expense_id, shop_name, category_type, amount, date
