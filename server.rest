@@ -45,16 +45,18 @@ DELETE http://trackexpense.onrender.com/api/expenses/17
 POST http://trackexpense.onrender.com/api/expenses
 Content-Type: application/json
 
-{"shop_name": "Alepa",
-"category_id": 1,
-"amount": 13.47}
+{"shop_name": "Normal",
+"category_id": 3,
+"amount": 0.44,
+"expense_date": "2020-01-10T22:00:00.000Z"}
 
 // update expense by id
 ###
-PUT http://trackexpense.onrender.com/api/expenses/12
+PUT http://trackexpense.onrender.com/api/expenses/4
 Content-Type: application/json
 
-{"shop_name": "Sale",
-"category_id": 1,
-"amount": 50,
-"date": "2023-01-23"}
+{"shop_name": "Power",
+"category_id": 3,
+"amount": 3.12,
+"expense_date": "2023-01-26",
+"expense_id": 4}

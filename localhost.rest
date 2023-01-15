@@ -44,15 +44,16 @@ Content-Type: application/json
 
 {"shop_name": "Rituals",
 "category_id": 3,
-"amount": 34,
+"amount": 0.44,
 "expense_date": "2020-01-10T22:00:00.000Z"}
 
 // update expense by id
 ###
-PUT http://localhost:5001/api/expenses/107
+PUT http://localhost:5001/api/expenses/425
 Content-Type: application/json
 
-{"shop_name": "Sale",
-"category_id": 1,
-"amount": 50,
-"expense_date": "2023-01-23"}
+{"shop_name": "Power",
+"category_id": 3,
+"amount": 37.12,
+"expense_date": "2023-01-26",
+"expense_id": 425}
