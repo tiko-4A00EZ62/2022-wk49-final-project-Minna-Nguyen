@@ -91,13 +91,6 @@ describe("GET expenses endpoint", () => {
           amount: 11.48,
           expense_date: "2023-01-14T20:16:10.000Z",
         },
-        {
-          expense_id: 4,
-          shop_name: "Prisma",
-          category_type: "shop",
-          amount: 5.02,
-          expense_date: "2023-01-14T20:16:10.000Z",
-        },
       ])
     );
   });
@@ -254,9 +247,16 @@ describe("GET expenses endpoint", () => {
         },
         {
           expense_id: 4,
-          shop_name: "Prisma",
+          shop_name: "Power",
+          category_type: "other",
+          amount: 3.12,
+          expense_date: "2023-01-25T22:00:00.000Z",
+        },
+        {
+          expense_id: 6,
+          shop_name: "Alepa",
           category_type: "shop",
-          amount: 5.02,
+          amount: 3,
           expense_date: "2023-01-14T20:16:10.000Z",
         },
       ])
@@ -439,7 +439,7 @@ describe("POST expense endpoint", () => {
     expect(response.status).toEqual(400);
     expect(response.text).toContain('"amount" is required');
   });
-  test("Amount must be one or greater than one", async () => {
+  test("Amount must be one or greater than zero", async () => {
     const expense = {
       shop_name: "Apple Store",
       category_id: 3,
@@ -453,7 +453,7 @@ describe("POST expense endpoint", () => {
 
     expect(response.status).toEqual(400);
     expect(response.text).toContain(
-      '"amount" must be greater than or equal to 1'
+      '"amount" must be greater than or equal to 0'
     );
   });
   test("Date must be greater than or equal", async () => {
@@ -583,14 +583,8 @@ describe("PUT expense endpoint", () => {
       .put(`/api/expenses/${postId}`)
       .set("Accept", "application/json")
       .send(updateExpense);
-    // expect(response.headers["content-type"]).toMatch(
-    //   "text/html; charset=utf-8"
-    // );
-    console.log(response);
-    // console.log(data.shop_name)
 
     expect(response.status).toEqual(200);
-    // expect(response.text).toContain("expense updated");
 
     expect(response.body.expense_id).toEqual(postId);
     expect(response.body.shop_name).toEqual("Sale");
@@ -614,7 +608,235 @@ describe("PUT expense endpoint", () => {
     expect(response.status).toEqual(404);
     expect(response.text).toContain("not found");
   });
+  test("Shop name required", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
 
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"shop_name" is required');
+  });
+  test("Name cannot be too short", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "S",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"shop_name" length must be at least 2 characters long'
+    );
+  });
+  test("Name cannot be empty", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"shop_name" is not allowed to be empty');
+  });
+
+  test("Category id must have a number", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1.2,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"category_id" must be an integer');
+  });
+  test("Category id cannot be negative or 0", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 0,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"category_id" must be greater than or equal to 1'
+    );
+  });
+  test("Category id cannot be over 3", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 4,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"category_id" must be less than or equal to 3'
+    );
+  });
+  test("Category id must be an integer", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1.1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"category_id" must be an integer');
+  });
+  test("Amount required", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"amount" is required');
+  });
+  test("Amount must be one or greater than zero", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: -10,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"amount" must be greater than or equal to 0'
+    );
+  });
+  test("Date must be greater than or equal", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2000-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain(
+      '"expense_date" must be greater than or equal to "2005-01-01T00:00:00.000Z"'
+    );
+  });
+  test("Date required", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"expense_date" is required');
+  });
+  test("Expense_id required", async () => {
+    const updateExpense = {
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"expense_id" is required');
+  });
+
+  test("Expense_id must be integer", async () => {
+    const updateExpense = {
+      expense_id: 23.23,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+
+    expect(response.status).toEqual(400);
+    expect(response.text).toContain('"expense_id" must be an integer');
+  });
   afterAll(async () => {
     await supertest(app)
       .delete(`/api/expenses/${postId}`)
