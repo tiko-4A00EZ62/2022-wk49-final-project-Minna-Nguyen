@@ -38,6 +38,7 @@ update expenses set shop_name ="Sale" where expense_id = 12;
 select expense_id ,shop_name, category_type, amount, expense_date
 from expenses inner join categories on category_id = categories.id;
 select * FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 3 AND amount LIKE 24.91;
+delete FROM expenses WHERE shop_name LIKE 'Apple Store' AND category_id LIKE 2;
 /*
 K-market,food,69.02,2022-12-27 16:47:23
 Prisma,shop,11.48,2022-12-27 17:04:17
