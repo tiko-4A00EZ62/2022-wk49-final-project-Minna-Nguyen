@@ -532,7 +532,6 @@ describe("DELETE expense endpoint", () => {
       .send(expense);
     const postId = response.body.expense_id;
 
-    console.log(response);
     const deleteExpense = await supertest(app)
       .delete(`/api/expenses/${postId}`)
       .set("Accept", "application/json");
@@ -547,5 +546,79 @@ describe("DELETE expense endpoint", () => {
 
     expect(response.status).toEqual(404);
     expect(response.text).toEqual("not found");
+  });
+});
+
+describe("PUT expense endpoint", () => {
+  const connection = require("../db/connection");
+  let postId;
+  beforeAll(async () => {
+    const expense = {
+      shop_name: "Ristorante Momento",
+      category_id: 2,
+      amount: 18.1,
+      expense_date: "2022-10-21T21:00:00.000Z",
+    };
+    const response = await supertest(app)
+      .post("/api/expenses")
+      .set("Accept", "application/json")
+      .send(expense);
+    expect(response.status).toEqual(201);
+    expect(response.headers["content-type"]).toMatch(
+      "application/json; charset=utf-8"
+    );
+    postId = parseInt(response.body.expense_id);
+  });
+
+  test("update expense with the id", async () => {
+    const updateExpense = {
+      expense_id: postId,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+
+    const response = await supertest(app)
+      .put(`/api/expenses/${postId}`)
+      .set("Accept", "application/json")
+      .send(updateExpense);
+    // expect(response.headers["content-type"]).toMatch(
+    //   "text/html; charset=utf-8"
+    // );
+    console.log(response);
+    // console.log(data.shop_name)
+
+    expect(response.status).toEqual(200);
+    // expect(response.text).toContain("expense updated");
+
+    expect(response.body.expense_id).toEqual(postId);
+    expect(response.body.shop_name).toEqual("Sale");
+    expect(response.body.category_id).toEqual(1);
+    expect(response.body.amount).toEqual(50);
+    expect(response.body.expense_date).toEqual("2023-01-23");
+  });
+
+  test("should check that city with id exists", async () => {
+    const expense = {
+      expense_id: 10000,
+      shop_name: "Sale",
+      category_id: 1,
+      amount: 50,
+      expense_date: "2023-01-23",
+    };
+    const response = await supertest(app)
+      .put("/api/expenses/10000")
+      .set("Accept", "application/json")
+      .send(expense);
+    expect(response.status).toEqual(404);
+    expect(response.text).toContain("not found");
+  });
+
+  afterAll(async () => {
+    await supertest(app)
+      .delete(`/api/expenses/${postId}`)
+      .set("Accept", "application/json");
+    connection.end();
   });
 });
