@@ -15,7 +15,7 @@ const getTotalSum = async (req, res) => {
   try {
     const response = await expenses.getSum();
     if (response) {
-      res.send(response);
+      res.status(200).send(response);
     }
   } catch (error) {
     res.sendStatus(500);
