@@ -52,7 +52,7 @@ Create a `.env` file to store conneciton information. Make sure not to let anybo
 
 ### In case the installation does not find the required modules...
 
-Try runnin `npm install express dotenv mysql`. This will install all the required modules. Now the application should find the modules and run it fine. Run it with `nodemon index.js` or `npx nodemon index.js` command.
+Try running `npm install express dotenv mysql`. This will install all the required modules. Now the application should find the modules and run it fine. Run it with `nodemon index.js` or `npx nodemon index.js` command.
 
 ### Creating default database
 
@@ -64,7 +64,7 @@ expense_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 shop_name varchar(60) NOT NULL,
 amount DECIMAL(10,2) NOT NULL,
 category_id INT NOT NULL,
-date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+expense_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 FOREIGN KEY(category_id) REFERENCES categories(id)
 );
@@ -85,7 +85,10 @@ INSERT INTO expenses (shop_name, amount, category_id) VALUES
 ("Prisma", 5.02,1),
 ("Wolt", 32.18, 2),
 ("Alepa", 3.00, 1),
-("K-market", 69.02, 2);
+("K-market", 69.02, 2),
+("Pancho Villa", 23.99, 2),
+("Apple Store", 229, 3),
+("Ristorante Momento", 14.22, 2);
 
 
 INSERT INTO categories (id, category_type) VALUES
