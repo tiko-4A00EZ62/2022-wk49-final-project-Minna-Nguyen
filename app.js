@@ -13,9 +13,13 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 // ths is the basic mount path
 app.use("/api/expenses", routes);
-
 app.get("/health", (req, res) => {
   res.send("200 OK");
 });
