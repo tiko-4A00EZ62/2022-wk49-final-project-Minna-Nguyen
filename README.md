@@ -44,15 +44,16 @@ Install the express node module `npm install express`.
 To make it easier to code this project uses 'nodemon' gloablly. To install it `npm install -g nodemon`
 
 For some Mac users `npm install -g` doesn't do anything so install it with `npm install nodemon --save-dev` And to run it `npx nodemon index.js`
-
 To run the index.js with `nodemon index.js` Nodemon will restart the application everytime new changes are done.
 
 Create a `.env` file to store conneciton information. Make sure not to let anybody see the credentials. You need to install 'dotenv' to the read the `.env` file.
 `npm install dotenv --save`
 
+Install `npm install cors` to use the CORS. This will allow the server to access our database.
+
 ### In case the installation does not find the required modules...
 
-Try running `npm install express dotenv mysql`. This will install all the required modules. Now the application should find the modules and run it fine. Run it with `nodemon index.js` or `npx nodemon index.js` command.
+Try running `npm install express dotenv mysql cors`. This will install all the required modules. Now the application should find the modules and run it fine. Run it with `nodemon index.js` or `npx nodemon index.js` command.
 
 ### Creating default database
 
