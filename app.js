@@ -3,14 +3,15 @@ const cors = require("cors");
 const routes = require("./routes/expenses");
 const app = express();
 
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:5001/api/expenses",
-//       "https://trackexpense.onrender.com/api/expenses",
-//     ],
-//   })
-// );
+app.use(
+  cors({
+    origin: [
+      "https://editor.swagger.io/",
+      "http://localhost:5001/",
+      "https://trackexpense.onrender.com/",
+    ],
+  })
+);
 
 app.use(express.json());
 
