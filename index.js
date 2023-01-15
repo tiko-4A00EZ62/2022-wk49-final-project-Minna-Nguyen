@@ -2,11 +2,7 @@ const app = require("./app");
 const cors = require("cors");
 app.use(
   cors({
-    origin: [
-      "http://localhost:5001",
-      "https://trackexpense.onrender.com",
-      "https://editor.swagger.io",
-    ],
+    origin: [],
   })
 );
 app.use((req, res, next) => {
