@@ -139,7 +139,7 @@ const newExpense = async (req, res) => {
   const schema = Joi.object({
     shop_name: Joi.string().min(2).required(),
     category_id: Joi.number().integer().min(1).max(3).required(),
-    amount: Joi.number().min(1).required(),
+    amount: Joi.number().min(0).required(),
     expense_date: Joi.date().min("2005-01-01").required(),
   });
 
@@ -175,6 +175,23 @@ const newExpense = async (req, res) => {
   }
 };
 const updateById = async (req, res) => {
+  // Define the schema
+  const schema = Joi.object({
+    shop_name: Joi.string().min(2).required(),
+    category_id: Joi.number().integer().min(1).max(3).required(),
+    amount: Joi.number().min(0).required(),
+    expense_date: Joi.date().min("2005-01-01").required(),
+    expense_id: Joi.number().integer().min(1).required(),
+  });
+
+  // Validate the req.body against the schema
+  // Validate returns an error object if there are validation errors
+  const { error } = schema.validate(req.body);
+  if (error) {
+    //Sending back the error details
+    res.status(400).send(error.details[0].message);
+    return;
+  }
   const id = parseInt(req.params.id);
 
   const updateExpense = {
