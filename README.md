@@ -98,3 +98,25 @@ INSERT INTO categories (id, category_type) VALUES
 ```
 
 ## Project self evalutation
+
+A. Solution Design
+
+- I think it's a 04
+
+B. Execution
+
+- I think it's a 30
+
+C. Requirements Satisfaction
+
+- I think it's a 20
+
+D. Coding style
+
+- I think it's a 12
+
+E. Documentation
+
+- I think it's a 10
+
+I see that my functions are repetitive. Then again it was mostly done by looking at example codes. I did some commenting to the code.
