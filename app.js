@@ -4,7 +4,7 @@ const routes = require("./routes/expenses");
 const app = express();
 
 app.use(express.json());
-
+// cors handling, the server can fetch data since because cors() origin gives permission to it
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   next();

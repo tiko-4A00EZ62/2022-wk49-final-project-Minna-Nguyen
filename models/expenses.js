@@ -1,6 +1,7 @@
 const connection = require("../db/connection");
 
 const expenses = {
+  // query the data base and send it as a Promise
   getAllExpenses: () =>
     new Promise((resolve, reject) => {
       const getAll = `SELECT expense_id, shop_name, category_type, amount, expense_date

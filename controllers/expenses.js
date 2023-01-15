@@ -1,5 +1,7 @@
 const expenses = require("../models/expenses");
 const Joi = require("joi");
+
+// fecth the data. The data is asynchronous. It will retrun a Promise respond.
 const getExpenses = async (req, res) => {
   try {
     const response = await expenses.getAllExpenses();
@@ -175,7 +177,6 @@ const newExpense = async (req, res) => {
   }
 };
 const updateById = async (req, res) => {
-  // Define the schema
   const schema = Joi.object({
     shop_name: Joi.string().min(2).required(),
     category_id: Joi.number().integer().min(1).max(3).required(),
@@ -184,8 +185,6 @@ const updateById = async (req, res) => {
     expense_id: Joi.number().integer().min(1).required(),
   });
 
-  // Validate the req.body against the schema
-  // Validate returns an error object if there are validation errors
   const { error } = schema.validate(req.body);
   if (error) {
     //Sending back the error details

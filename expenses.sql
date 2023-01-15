@@ -33,6 +33,8 @@ INSERT INTO categories (id, category_type) VALUES
 (3, "other");
 insert into expenses set shop_name="Rituals", amount=10.90, category_id=3, expense_date="2022-2-13";
 
+
+/*query testings*/
 update expenses set shop_name ="Sale" where expense_id = 12;
 
 select expense_id ,shop_name, category_type, amount, expense_date

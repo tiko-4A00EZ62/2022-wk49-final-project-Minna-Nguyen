@@ -38,7 +38,7 @@ GET http://trackexpense.onrender.com/api/expenses/shop/Sale
 
 // DELETE expense by id
 ###
-DELETE http://trackexpense.onrender.com/api/expenses/17
+DELETE http://trackexpense.onrender.com/api/expenses/514
 
 // POST new expense
 ###
