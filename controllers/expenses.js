@@ -157,6 +157,7 @@ const newExpense = async (req, res) => {
     category_id: req.body.category_id,
     amount: parseFloat(req.body.amount),
     expense_date: req.body.expense_date,
+    expense_id: req.body.expense_id,
   };
   try {
     const alreadyExist = await expenses.findByExpense(expense);
@@ -166,7 +167,7 @@ const newExpense = async (req, res) => {
     }
     const response = await expenses.createExpense(expense);
     if (response) {
-      expense.expense_id = response.expense_id;
+      expense.expense_id = response.insertId;
       res.status(201).send(expense);
     }
   } catch (error) {
@@ -174,19 +175,25 @@ const newExpense = async (req, res) => {
   }
 };
 const updateById = async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
 
   const updateExpense = {
     shop_name: req.body.shop_name,
     category_id: req.body.category_id,
     amount: parseFloat(req.body.amount),
-    date: req.body.date,
+    expense_date: req.body.expense_date,
     expense_id: id,
   };
   try {
-    const update = await expenses.updateById(updateExpense);
-    if (update) {
-      res.send("Expense updated");
+    const response = await expenses.getById(id);
+    //if city by id found, update
+    if (response.length === 1) {
+      const update = await expenses.updateById(updateExpense);
+      if (update) {
+        res.status(200).send(updateExpense);
+      }
+    } else {
+      res.status(404).send("not found");
     }
   } catch (error) {
     res.sendStatus(500);
