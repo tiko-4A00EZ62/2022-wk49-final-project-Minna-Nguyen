@@ -7,7 +7,7 @@ GET http://localhost:5001/api/expenses/expenses/totalsum
 
 // get expense by ID
 ###
-GET http://localhost:5001/api/expenses/12
+GET http://localhost:5001/api/expenses/67
 
 // filter by category type
 ###
@@ -19,7 +19,7 @@ GET http://localhost:5001/api/expenses/category/food
 
 // filter by month
 ###
-GET http://localhost:5001/api/expenses/month/2
+GET http://localhost:5001/api/expenses/month/5
 
 // get by amount less than 10
 ###
@@ -31,27 +31,28 @@ GET http://localhost:5001/api/expenses/gt10/10
 
 // get by shop name
 ###
-GET http://localhost:5001/api/expenses/shop/Sale
+GET http://localhost:5001/api/expenses/shop/Alepa
 
 // DELETE expense by id
 ###
-DELETE http://localhost:5001/api/expenses/17
+DELETE http://localhost:5001/api/expenses/30
 
 // POST new expense
 ###
 POST http://localhost:5001/api/expenses
 Content-Type: application/json
 
-{"shop_name": "Alepa",
-"category_id": 1,
-"amount": 13.47}
+{"shop_name": "Rituals",
+"category_id": 3,
+"amount": 34,
+"expense_date": "2020-01-10T22:00:00.000Z"}
 
 // update expense by id
 ###
-PUT http://localhost:5001/api/expenses/12
+PUT http://localhost:5001/api/expenses/107
 Content-Type: application/json
 
 {"shop_name": "Sale",
 "category_id": 1,
 "amount": 50,
-"date": "2023-01-23"}
+"expense_date": "2023-01-23"}
